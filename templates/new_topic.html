@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" id="newTopicForm" class="mb-4" novalidate>
+  <form method="post" enctype="multipart/form-data" id="newTopicForm" class="mb-4" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}
     {% if recaptcha_enabled %}

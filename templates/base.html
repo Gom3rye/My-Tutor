@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}Django Boards{% endblock %}</title>
+    <title>{% block title %}My tutor{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
@@ -11,9 +11,9 @@
   <body>
     {% block body %}
       <div class="wrapper">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #5D5FEF">
           <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Django Boards</a>
+            <a class="navbar-brand" href="{% url 'home' %}">My tutor</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,13 +22,13 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'home' %}">Boards</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/" target="_blank" rel="noopener">Tutorial</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="https://github.com/sibtc/django-beginners-guide" target="_blank" rel="noopener">GitHub</a>
-                </li>
-              </ul>
+                  </li> -->
+                </ul>
               {% if user.is_authenticated %}
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item dropdown">
@@ -45,8 +45,8 @@
                 </ul>
               {% else %}
                 <form class="form-inline ml-auto">
-                  <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
-                  <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+                  <a href="{% url 'login' %}" class="btn btn-outline-secondary" style="background-color:white; color:blue">Log in</a>
+                  <a href="{% url 'signup' %}" class="btn btn-primary ml-2" style="background-color:white; color:red">Sign up</a>
                 </form>
               {% endif %}
             </div>
@@ -62,11 +62,12 @@
         </div>
         <div class="push"></div>
       </div>
-      <footer>
+      <footer style="background-color: #5D5FEF; color: white; font-weight: bold; font-size: 25px; padding-bottom: 10px;padding-top: 8px">
         <div class="container">
-          <a href="http://sibt.co/2xhZa6M" rel="nofollow noopener" target="_blank">
+            No pain, no gain
+          <!-- <a href="http://sibt.co/2xhZa6M" rel="nofollow noopener" target="_blank">
             <img src="{% static 'img/DO_Powered_by_Badge_black.png' %}" alt="Powered by DigitalOcean" style="height: 30px;">
-          </a>
+          </a> -->
         </div>
       </footer>
     {% endblock body %}

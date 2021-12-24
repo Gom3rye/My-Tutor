@@ -4,10 +4,16 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.html import mark_safe
 from django.utils.text import Truncator
+from django.urls import reverse
 
 from markdown import markdown
 
+class Category(models.Model):
+    name = models.CharField(max_length=50, help_text="관련 교과목을 입력하세요.(ex:수학)")
 
+    def __str__(self):
+        return self.name
+    
 class Board(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=100)
@@ -24,10 +30,13 @@ class Board(models.Model):
 
 class Topic(models.Model):
     subject = models.CharField(max_length=255)
+    description = models.TextField(max_length=4000, default='')
     last_updated = models.DateTimeField(auto_now_add=True)
     board = models.ForeignKey(Board, related_name='topics', on_delete=models.CASCADE)
     starter = models.ForeignKey(User, related_name='topics', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
+    category = models.ManyToManyField(Category, blank=True)
+    image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return self.subject
@@ -59,10 +68,13 @@ class Post(models.Model):
     updated_at = models.DateTimeField(null=True)
     created_by = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(User, null=True, related_name='+', on_delete=models.CASCADE)
-
+    
     def __str__(self):
         truncated_message = Truncator(self.message)
         return truncated_message.chars(30)
 
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))
+#1번 글의 경우 -> post/1
+    def get_absolute_url(self):
+        return reverse("post", args=[str(self.id)])

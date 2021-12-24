@@ -8,6 +8,8 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.urls import reverse
 
+#from boards.models import Category, Post
+
 from myproject.utils import recaptcha_is_valid
 
 from .forms import NewTopicForm, PostForm
@@ -32,7 +34,7 @@ class TopicListView(ListView):
 
     def get_queryset(self):
         self.board = get_object_or_404(Board, pk=self.kwargs.get('pk'))
-        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts'))
         return queryset
 
 
@@ -61,17 +63,19 @@ class PostListView(ListView):
 def new_topic(request, pk):
     board = get_object_or_404(Board, pk=pk)
     if request.method == 'POST':
-        form = NewTopicForm(request.POST)
+        form = NewTopicForm(request.POST, request.FILES)
         if form.is_valid() and recaptcha_is_valid(request):
             topic = form.save(commit=False)
             topic.board = board
             topic.starter = request.user
+            topic.description = form.cleaned_data.get('message')
+            topic.image = request.FILES.get('image')
             topic.save()
-            Post.objects.create(
-                message=form.cleaned_data.get('message'),
-                topic=topic,
-                created_by=request.user
-            )
+            # Post.objects.create(
+            #                 message=form.cleaned_data.get('message'),
+            #                 topic=topic,
+            #                 created_by=request.user
+            #             )
             return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
     else:
         form = NewTopicForm()

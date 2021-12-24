@@ -6,6 +6,9 @@ from django.contrib.auth import views as auth_views
 from accounts import views as accounts_views
 from boards import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', views.BoardListView.as_view(), name='home'),
@@ -44,3 +47,4 @@ urlpatterns = [
         views.PostUpdateView.as_view(), name='edit_post'),
     path('admin/', admin.site.urls),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

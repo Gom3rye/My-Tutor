@@ -6,7 +6,6 @@ body {
 .navbar-brand {
   font-family: 'Peralta', cursive;
 }
-
 blockquote {
   border-left: 5px solid rgba(0,0,0,.125);
   padding-left: 1.25rem;
@@ -27,6 +26,6 @@ blockquote {
 footer {
   height: 60px;
   padding: 15px 0;
-  background-color: #e9ecef;
+  background-color: #5D5FEF;
   position: relative;
 }
